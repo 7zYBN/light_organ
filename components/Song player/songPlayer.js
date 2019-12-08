@@ -1,7 +1,6 @@
 export default class SongPlayer {
   constructor(parent) {
     this._parent = parent;
-
     this._elements = {};
 
     this._initPlayer();
@@ -13,6 +12,10 @@ export default class SongPlayer {
     this._elements.audioPlayer.setAttribute('src', url);
   }
 
+  set playAction(action) {
+    this._playAction = action;
+  }
+
   _initPlayer() {
     this._createElements();
     this._setEventListeners();
@@ -21,6 +24,7 @@ export default class SongPlayer {
   _createElements() {
     this._createFileInput();
     this._createAudioPlayer();
+    this._createAudioAnalyser();
   }
 
   _createFileInput() {
@@ -33,8 +37,18 @@ export default class SongPlayer {
     this._elements.fileInput = fileInput;
   }
 
+  _createAudioPlayer() {
+    const audioPlayer = document.createElement('audio');
+
+    audioPlayer.setAttribute('controls', true);
+    this._parent.appendChild(audioPlayer);
+
+    this._elements.audioPlayer = audioPlayer;
+  }
+
   _setEventListeners() {
     this._setFileInputListener();
+    this._setAudioPlayerListener();
   }
 
   _setFileInputListener() {
@@ -43,12 +57,36 @@ export default class SongPlayer {
     });
   }
 
-  _createAudioPlayer() {
-    const audioPlayer = document.createElement('audio');
+  _setAudioPlayerListener() {
+    const  { audioPlayer, audioPlayer: { audioNode, analyser, dataArray } } = this._elements;
 
-    audioPlayer.setAttribute('controls', true);
-    this._parent.appendChild(audioPlayer);
+    audioNode.addEventListener('audioprocess', () => {
+      const isPaused = audioPlayer.paused;
+      
+      if (!isPaused) {
+        analyser.getByteFrequencyData(dataArray);
 
-    this._elements.audioPlayer = audioPlayer;
+        this._playAction && this._playAction(dataArray);
+      }
+    });
+  }
+
+  _createAudioAnalyser() {
+    const audioContext = new AudioContext();
+    const mediaSource = audioContext.createMediaElementSource(this._elements.audioPlayer);
+    const { audioPlayer } = this._elements;
+
+    audioPlayer.audioNode = audioContext.createScriptProcessor(256, 1, 1);
+    audioPlayer.analyser = audioContext.createAnalyser();
+
+    const { audioNode, analyser } = audioPlayer;
+
+    analyser.fftSize = 512;
+    audioPlayer.dataArray = new Uint8Array(analyser.frequencyBinCount);
+  
+    mediaSource.connect(analyser);
+    analyser.connect(audioNode);
+    mediaSource.connect(audioContext.destination);    
+    audioNode.connect(audioContext.destination);
   }
 }

@@ -20,6 +20,33 @@ export default class App {
 
   _buildSongPlayer() {
     this._songPlayer = new SongPlayer(document.body);
+
+    this._songPlayer.playAction = (data) => {
+      console.log(data)
+      const squareSize = 50;
+      const gap = 10;
+      let startX = 0;
+      let startY = 0;
+
+      for (let i = 0; i < 144; i++) {
+        // console.log(dataArray[i])
+        // const color = COLORS[Math.floor(Math.random() * 7)];
+        const r = data[i] + (Math.floor(Math.random() * 256) * (i/256));
+        const g = (Math.floor(Math.random() * 256) - 50 + data[i]) * (i/256);
+        const b = data[i] + (i/256);
+        
+        if ((i % 16 === 0) && (i !== 0)) {
+          startY += squareSize + gap;
+          startX = 0;
+        }
+        // console.log(startX,startY)
+        // ctx.fillStyle = color;
+        
+        const color = "rgb(" + r + "," + g + "," + b + ")";
+        this._canvas.drawRectangle(color, startX + gap, startY + gap, squareSize, squareSize);
+        startX += squareSize + gap;
+      }
+    }    
   }
 }
 
