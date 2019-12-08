@@ -1,0 +1,26 @@
+.resizer {
+  width: 500px;
+}
+
+.resizer--button {
+
+}
+
+.resizer--container {
+  display: none;
+}
+
+.resizer--container-shown {
+  display: grid;
+  grid-gap: 10px;;
+}
+
+.resizer--square {
+  width: 20px;
+  height: 20px;
+  border: 2px solid black;
+}
+
+.resizer--square-selected {
+  border: 2px solid sandybrown;
+}

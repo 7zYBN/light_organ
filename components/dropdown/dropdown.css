@@ -80,4 +80,5 @@
 
 .selected {
   color: lightskyblue;
+  font-weight: bold;
 }

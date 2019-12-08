@@ -30,6 +30,7 @@ export default class SongPlayer {
   _createFileInput() {
     const fileInput = document.createElement('input');
 
+    fileInput.style.display = 'block';
     fileInput.setAttribute('type', 'file');
     fileInput.setAttribute('accept', 'audio/*');
     this._parent.appendChild(fileInput);
@@ -40,6 +41,8 @@ export default class SongPlayer {
   _createAudioPlayer() {
     const audioPlayer = document.createElement('audio');
 
+    audioPlayer.style.display = 'block';
+    audioPlayer.style.width = '100%';
     audioPlayer.setAttribute('controls', true);
     this._parent.appendChild(audioPlayer);
 
