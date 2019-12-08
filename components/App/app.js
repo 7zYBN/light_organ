@@ -1,4 +1,5 @@
 import Canvas from '../Canvas/canvas.js';
+import SongPlayer from '../Song player/songPlayer.js';
 
 export default class App {
   constructor() {
@@ -7,6 +8,7 @@ export default class App {
 
   build() {
     this._buildCanvas();
+    this._buildSongPlayer();
   }
 
   _buildCanvas() {
@@ -14,6 +16,10 @@ export default class App {
       height = 550;
     this._canvas = new Canvas(document.body, { width, height });
     this._canvas.drawRectangle('#000');
+  }
+
+  _buildSongPlayer() {
+    this._songPlayer = new SongPlayer(document.body);
   }
 }
 
