@@ -69,31 +69,50 @@ export default class Resizer {
   }
 
   _setEventListeners() {
-    this._elements.button.addEventListener('click', () => {
-      this._elements.resizerContainer.classList.add('resizer--container-shown');
-    })
+    this._setButtonListeners();
+    this._setresizerContainerListeners();
+  }
 
-    this._elements.resizerContainer.addEventListener('mouseover', event => {
-      const squares = [...document.querySelectorAll('.resizer--square')];
-      const selectedSquares = squares.filter(square => (+square.dataset.row <= +event.target.dataset.row) && (+square.dataset.column <= +event.target.dataset.column))
+  _setButtonListeners() {
+    const { button, resizerContainer } = this._elements;
+
+    button.addEventListener('click', () => {
+      resizerContainer.classList.add('resizer--container-shown');
+    })
+  }
+
+  _setresizerContainerListeners() {
+    const { resizerContainer: container } = this._elements;
+
+    container.addEventListener('mouseover', event => this._selectSquares(event))
+    container.addEventListener('mouseout', () => this._unselectSquares())
+    container.addEventListener('click', event => this._clickSquares(event))
+  }
+
+  _selectSquares(event) {
+    const { row, column } = event.target.dataset;
+    const squares = [...document.querySelectorAll('.resizer--square')];
+    const selectedSquares = squares.filter(square => (+square.dataset.row <= +row) && (+square.dataset.column <= +column))
+    
+    selectedSquares.forEach(square => square.classList.add('resizer--square-selected'));
+  }
+
+  _unselectSquares() {
+    const squares = [...document.querySelectorAll('.resizer--square-selected')];
       
-      selectedSquares.forEach(square => square.classList.add('resizer--square-selected'));
-    })
+    squares.forEach(square => square.classList.remove('resizer--square-selected'));
+  }
 
-    this._elements.resizerContainer.addEventListener('mouseout', () => {
-      const squares = [...document.querySelectorAll('.resizer--square-selected')];
-      
-      squares.forEach(square => square.classList.remove('resizer--square-selected'));
-    })
+  _clickSquares(event) {
+    const { row, column } = event.target.dataset;
 
-    this._elements.resizerContainer.addEventListener('click', event => {
-      if (event.target.closest('.resizer--square')) {
-        const rows = +event.target.dataset.row + 1;
-        const columns = +event.target.dataset.column + 1;
-        
-        this._onSelect(rows, columns);
-      }
-      this._elements.resizerContainer.classList.remove('resizer--container-shown');
-    })
+    if (event.target.closest('.resizer--square')) {
+      const rows = +row + 1;
+      const columns = +column + 1;
+
+      this._onSelect(rows, columns);
+    }
+
+    this._elements.resizerContainer.classList.remove('resizer--container-shown');
   }
 }

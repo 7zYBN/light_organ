@@ -82,29 +82,33 @@ export default class DropDown {
   }
 
   _openDropDown() {
-    this._elements.arrow.classList.remove('rotate-back');
-    this._elements.arrow.classList.add('rotate');
+    const { arrow, label, options } = this._elements;
 
-    this._elements.label.classList.add('special-style');
+    arrow.classList.remove('rotate-back');
+    arrow.classList.add('rotate');
 
-    if (!this._elements.options.hasChildNodes()) {
+    label.classList.add('special-style');
+
+    if (!options.hasChildNodes()) {
       this._createOptions();
     }
 
-    this._elements.options.classList.add('show');
+    options.classList.add('show');
   }
 
   _closeDropDown(event) {
-    if (!this._elements.container.contains(event.target)) {
-      this._elements.options.classList.remove('show');
+    const { container, selectorField, label, arrow, options } = this._elements;
 
-      if (!this._elements.selectorField.hasChildNodes()) {
-        this._elements.label.classList.remove('special-style');
+    if (!container.contains(event.target)) {
+      options.classList.remove('show');
+
+      if (!selectorField.hasChildNodes()) {
+        label.classList.remove('special-style');
       }
       
-      if (this._elements.arrow.classList.contains('rotate')) {
-        this._elements.arrow.classList.remove('rotate');
-        this._elements.arrow.classList.add('rotate-back');
+      if (arrow.classList.contains('rotate')) {
+        arrow.classList.remove('rotate');
+        arrow.classList.add('rotate-back');
       }
     }
   }
@@ -128,14 +132,16 @@ export default class DropDown {
 
   _optionClickHandle(target) {
     const options = [...this._elements.options.children];
+    const { label , selectorField } = this._elements;
+
     options.forEach(option => {
       option.classList.remove('selected');
     });
 
     target.classList.add('selected');
-    this._elements.label.classList.add('selected');
-    this._elements.label.classList.add('special-style');
-    this._elements.selectorField.innerHTML = target.innerHTML;
+    label.classList.add('selected');
+    label.classList.add('special-style');
+    selectorField.innerHTML = target.innerHTML;
     this.onSelect(getComputedStyle(target).backgroundColor);
 
     this._closeDropDown(event);

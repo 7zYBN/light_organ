@@ -9,15 +9,20 @@ export default class Canvas {
 
   _initCanvas() {
     this._canvas = document.createElement('canvas');
-    this._canvas.width = this._width;
-    this._canvas.height = this._height;
-    this._parent.appendChild(this._canvas);
 
-    this._context = this._canvas.getContext("2d");
+    const { _canvas: canvas, _width: width, _height: height, _parent: parent } = this;
+
+    canvas.width = width;
+    canvas.height = height;
+    parent.appendChild(canvas);
+
+    this._context = canvas.getContext("2d");
   }
 
   drawRectangle(color, startX = 0, startY = 0, widthSize = this._width, heightSize = this._height) {
-    this._context.fillStyle = color;
-    this._context.fillRect(startX, startY, widthSize, heightSize);
+    const { _context: context } = this;
+
+    context.fillStyle = color;
+    context.fillRect(startX, startY, widthSize, heightSize);
   }
 }

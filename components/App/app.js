@@ -30,17 +30,19 @@ export default class App {
       columns: 16
     };
 
-    const resizer = new Resizer(document.body, this._gridValues.rows, this._gridValues.columns, onSelect);
+    const { rows, columns } = this._gridValues;
+    const resizer = new Resizer(document.body, rows, columns, onSelect);
 
     resizer.build();
   }
 
   _buildCanvas() {
     const width = 970, height = 550;
+
     this._canvas = new Canvas(this._elements.playerContainer, { width, height });
     this._canvas.drawRectangle('#000');
-    this._canvas.width = 970;
-    this._canvas.height = 550;
+    this._canvas.width = width;
+    this._canvas.height = height;
   }
 
   _setRGBColors(analyserValue) {
@@ -69,7 +71,6 @@ export default class App {
 
   _calculateGridValues({ rows, columns }) {
     const gap = 10;
-
     const cellWidth = (this._canvas.width - (columns + 1) * gap) / columns;
     const cellHeight = (this._canvas.height - (rows + 1) * gap) / rows;
 
