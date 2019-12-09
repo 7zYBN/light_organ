@@ -80,8 +80,8 @@ export default class SongPlayer {
 
   _createAudioAnalyser() {
     const audioContext = new AudioContext();
-    const mediaSource = audioContext.createMediaElementSource(this._elements.audioPlayer);
     const { audioPlayer } = this._elements;
+    const mediaSource = audioContext.createMediaElementSource(audioPlayer);
 
     audioPlayer.audioNode = audioContext.createScriptProcessor(4096, 1, 1);
     audioPlayer.analyser = audioContext.createAnalyser();
