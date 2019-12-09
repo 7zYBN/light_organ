@@ -69,24 +69,15 @@ export default class Resizer {
   }
 
   _setEventListeners() {
-    this._setButtonListeners();
     this._setresizerContainerListeners();
-  }
-
-  _setButtonListeners() {
-    const { button, resizerContainer } = this._elements;
-
-    button.addEventListener('click', () => {
-      resizerContainer.classList.add('resizer--container-shown');
-    })
+    document.body.addEventListener('click', event => this._clickSquares(event));
   }
 
   _setresizerContainerListeners() {
     const { resizerContainer: container } = this._elements;
 
-    container.addEventListener('mouseover', event => this._selectSquares(event))
-    container.addEventListener('mouseout', () => this._unselectSquares())
-    container.addEventListener('click', event => this._clickSquares(event))
+    container.addEventListener('mouseover', event => this._selectSquares(event));
+    container.addEventListener('mouseout', () => this._unselectSquares());
   }
 
   _selectSquares(event) {
@@ -106,13 +97,19 @@ export default class Resizer {
   _clickSquares(event) {
     const { row, column } = event.target.dataset;
 
-    if (event.target.closest('.resizer--square')) {
-      const rows = +row + 1;
-      const columns = +column + 1;
+    if (event.target.closest('.resizer')) {
+      if (event.target.closest('.resizer--square')) {
+        const rows = +row + 1;
+        const columns = +column + 1;
+  
+        this._onSelect(rows, columns);
+      }
 
-      this._onSelect(rows, columns);
+      this._elements.resizerContainer.classList.toggle('resizer--container-shown');
+    } else {
+      this._elements.resizerContainer.classList.remove('resizer--container-shown');
     }
 
-    this._elements.resizerContainer.classList.remove('resizer--container-shown');
+    
   }
 }

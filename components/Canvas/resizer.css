@@ -1,9 +1,10 @@
 .resizer {
-  width: 500px;
+  width: 600px;
 }
 
 .resizer--button {
-
+  font-size: 20px;
+  padding: 10px;
 }
 
 .resizer--container {
@@ -12,7 +13,8 @@
 
 .resizer--container-shown {
   display: grid;
-  grid-gap: 10px;;
+  grid-gap: 10px;
+  border: 5px solid black;
 }
 
 .resizer--square {
