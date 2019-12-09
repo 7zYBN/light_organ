@@ -1,8 +1,10 @@
 .resizer {
   width: 600px;
+  height: fit-content;
 }
 
 .resizer--button {
+  width: 100%;
   font-size: 20px;
   padding: 10px;
 }
