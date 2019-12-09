@@ -16,6 +16,10 @@ export default class SongPlayer {
     this._playAction = action;
   }
 
+  set pauseAction(action) {
+    this._pauseAction = action;
+  }
+
   _initPlayer() {
     this._createElements();
     this._setEventListeners();
@@ -70,7 +74,7 @@ export default class SongPlayer {
         analyser.getByteFrequencyData(dataArray);
 
         this._playAction && this._playAction(dataArray);
-      }
+      } else this._pauseAction();
     });
   }
 

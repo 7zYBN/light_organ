@@ -63,7 +63,8 @@ export default class App {
 
   _buildSongPlayer() {
     this._songPlayer = new SongPlayer(this._elements.playerContainer);
-    this._songPlayer.playAction = this._playerAction.bind(this);   
+    this._songPlayer.playAction = this._playerAction.bind(this);
+    this._songPlayer.pauseAction = this._pauseAction.bind(this);
   }
 
   _calculateGridValues({ rows, columns }) {
@@ -92,6 +93,10 @@ export default class App {
       this._canvas.drawRectangle(color, startX + gap, startY + gap, cellWidth, cellHeight);
       startX += cellWidth + gap;
     }
+  }
+
+  _pauseAction() {
+    this._canvas.drawRectangle('#000');
   }
 
   _buildDropDown() {
