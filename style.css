@@ -1,21 +1,12 @@
+@import "./components/dropdown/dropdown.css";
+@import "./components/Canvas/resizer.css";
+
 * {
   margin: 0;
   padding: 0;
 }
 
-.grid {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(16, 1fr);
-  grid-template-rows: repeat(9, 1fr);
-}
-
-.square {
-  width: 6.25%;
-  height: 6.25%;
-  background: red;
-}
-
 body {
-  text-align:center;
+  display: flex;
+  justify-content: space-evenly;
 }
