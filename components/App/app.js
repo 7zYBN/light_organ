@@ -37,7 +37,7 @@ export default class App {
   }
 
   _buildCanvas() {
-    const width = 970, height = 550;
+    const width = 700, height = 400;
 
     this._canvas = new Canvas(this._elements.playerContainer, { width, height });
     this._canvas.drawRectangle('#000');
